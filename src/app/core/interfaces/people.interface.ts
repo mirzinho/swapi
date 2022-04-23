@@ -15,3 +15,5 @@ export interface People extends BaseData {
     url: string;
     vehicles: Array<string>;
 }
+
+export type Character = People;

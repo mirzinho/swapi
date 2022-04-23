@@ -4,9 +4,9 @@ import { PublicRouting } from './public.routing';
 import { SharedModule } from '../core/modules/shared.module';
 
 @NgModule({
-    imports: [PublicRouting],
+    imports: [PublicRouting, SharedModule],
     declarations: [PublicPagesComponent],
-    exports: [],
+    exports: [SharedModule],
     providers: []
 })
 export class PublicPagesModule {}

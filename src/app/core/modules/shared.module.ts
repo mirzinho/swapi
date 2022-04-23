@@ -2,9 +2,9 @@ import { NgModule, ModuleWithProviders } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { SidebarComponent } from '../components/sidebar/sidebar.component';
 
-const APP_COMPONENTS: any = [];
-const NGA_COMPONENTS: any = [];
+const NGA_COMPONENTS: any = [SidebarComponent];
 
 const NGA_DIRECTIVES: any = [];
 
@@ -17,15 +17,9 @@ const NGA_MODULES = [CommonModule, RouterModule, FormsModule, ReactiveFormsModul
 const NGA_EXPORT_MODULES = [CommonModule, RouterModule, FormsModule, ReactiveFormsModule];
 
 @NgModule({
-    declarations: [...APP_COMPONENTS, ...NGA_COMPONENTS, ...NGA_DIRECTIVES, ...NGA_PIPES],
+    declarations: [...NGA_COMPONENTS, ...NGA_DIRECTIVES, ...NGA_PIPES],
     imports: [...NGA_MODULES],
-    exports: [
-        ...APP_COMPONENTS,
-        ...NGA_COMPONENTS,
-        ...NGA_DIRECTIVES,
-        ...NGA_EXPORT_MODULES,
-        ...NGA_PIPES
-    ],
+    exports: [...NGA_COMPONENTS, ...NGA_DIRECTIVES, ...NGA_EXPORT_MODULES, ...NGA_PIPES],
     providers: [...NGA_SERVICES]
 })
 export class SharedModule {

@@ -1,0 +1,10 @@
+.public-pages {
+    display: flex;
+    flex-direction: row;
+
+    #main-content {
+        border: 1px solid blue;
+        height: 100vh;
+        flex: 1;
+    }
+}

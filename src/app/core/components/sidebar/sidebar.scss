@@ -1,5 +1,31 @@
 #app-sidebar {
-    border: 1px solid red;
     min-width: 200px;
     height: 100vh;
+    background: #404040;
+    .header {
+        padding: 20px 15px;
+        font-size: 16px;
+        color: #fff;
+        background: #333;
+        i {
+            margin-right: 10px;
+            &:last-of-type {
+                float: right;
+            }
+        }
+    }
+    .item {
+        color: #fff;
+        padding: 10px;
+        border-bottom: 1px solid #333333;
+        cursor: pointer;
+
+        &:hover {
+            background: #535353;
+        }
+
+        i {
+            margin-right: 5px;
+        }
+    }
 }

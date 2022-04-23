@@ -4,13 +4,14 @@ import { Character } from '../../core/interfaces/people.interface';
 import { ActionResponse } from '../../core/interfaces/action-response.interface';
 import { EntityType } from '../../core/enums/enity-type.enum';
 import { Observable } from 'rxjs';
+import { PageEvent } from '../../core/components/table/table.interface';
 
 @Injectable()
 export class CharacterService {
     constructor(private http: AppHttpClient) {}
 
-    getCharacters = (): Observable<ActionResponse<Character>> => {
-        return this.http.get<Character>(EntityType.People);
+    getCharacters = (page: PageEvent): Observable<ActionResponse<Character>> => {
+        return this.http.get<Character>(EntityType.People, { page: page.pageIndex });
     };
 
     getCharacter = (): Character => {

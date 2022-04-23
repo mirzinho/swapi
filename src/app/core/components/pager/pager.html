@@ -1,0 +1,27 @@
+<div class="pager">
+    <div class="left">
+        <span class="page"> Page {{currentPage}} / {{totalPages}} </span>
+        <span class="items"> Items {{currentCount * currentPage}} / {{totalItems}} </span>
+    </div>
+    <div class="right">
+        <div class="page-switcher">
+            <div class="selector" (click)="previousPage()">
+                <i class="fa-solid fa-angle-left"></i>
+            </div>
+            <div class="pages">
+                <ng-container *ngFor="let page of getPages(); let index= index;">
+                    <div
+                        (click)="selectPage(page)"
+                        class="selector"
+                        [ngClass]="{ 'active': page == currentPage}"
+                    >
+                        {{page}}
+                    </div>
+                </ng-container>
+            </div>
+            <div class="selector" (click)="nextPage()">
+                <i class="fa-solid fa-angle-right"></i>
+            </div>
+        </div>
+    </div>
+</div>

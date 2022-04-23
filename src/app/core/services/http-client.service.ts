@@ -9,11 +9,23 @@ export interface QueryParams {
     [key: string]: string | number | boolean;
 }
 
+export const formatQueryParams = (queryParams: QueryParams | undefined): string => {
+    let query = '';
+    for (const property in queryParams) {
+        query += '?' + property + '=' + queryParams[property];
+    }
+    return query;
+};
+
 export const formatEndpointUrl = (
     entityType: EntityType,
     queryParams?: QueryParams
 ): string => {
-    return environment.baseAPIUrl + String(EntityType[entityType]).toLocaleLowerCase();
+    return (
+        environment.baseAPIUrl +
+        String(EntityType[entityType]).toLocaleLowerCase() +
+        formatQueryParams(queryParams)
+    );
 };
 
 @Injectable()

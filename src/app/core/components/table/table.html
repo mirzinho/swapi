@@ -1,0 +1,21 @@
+<div class="table-wrapper">
+    <table class="table" *ngIf="config">
+        <thead>
+            <tr>
+                <th *ngFor="let cell of config.columns">{{cell.header}}</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let row of config.data">
+                <td *ngFor="let column of config.columns">{{row[column.property]}}</td>
+            </tr>
+        </tbody>
+    </table>
+    <app-table-pager
+        *ngIf="config"
+        [totalItems]="config.count"
+        [currentCount]="config.data?.length || 0"
+        [currentPage]="config.currentPage"
+        (pageChanged)="pageChanged.emit($event)"
+    ></app-table-pager>
+</div>

@@ -1,0 +1,38 @@
+.pager {
+    padding: 10px;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-top: 0;
+    .page {
+        margin-right: 20px;
+    }
+
+    .page-switcher {
+        vertical-align: top;
+        .pages {
+            display: inline-block;
+        }
+        .selector {
+            display: inline-block;
+            margin-right: 5px;
+            border: 1px solid #ddd;
+            padding: 5px 10px;
+            cursor: pointer;
+            &:hover,
+            &.active {
+                color: #fff;
+                background: #404040;
+            }
+        }
+    }
+
+    .right,
+    .left {
+        display: inline-block;
+        width: 50%;
+    }
+
+    .right {
+        text-align: right;
+    }
+}

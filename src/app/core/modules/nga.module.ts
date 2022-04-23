@@ -6,8 +6,16 @@ import { SidebarComponent } from '../components/sidebar/sidebar.component';
 import { AppHttpClient } from '../services/http-client.service';
 import { ContentBoxComponent } from '../components/content-box/content-box.component';
 import { HeaderComponent } from '../components/header/header.component';
+import { TableComponent } from '../components/table/table.component';
+import { PagerComponent } from '../components/pager/pager.component';
 
-const NGA_COMPONENTS: any = [HeaderComponent, SidebarComponent, ContentBoxComponent];
+const NGA_COMPONENTS: any = [
+    HeaderComponent,
+    SidebarComponent,
+    ContentBoxComponent,
+    TableComponent,
+    PagerComponent
+];
 
 const NGA_DIRECTIVES: any = [];
 

@@ -5,6 +5,7 @@ import { PublicPagesModule } from './public.module';
 import { DashboardResolver } from './dashboard/dashboard.resolver';
 import { CharactersModule } from './characters/characters.module';
 import { DashboardModule } from './dashboard/dashboard.module';
+import { FilmsModule } from './films/films.module';
 
 export const routes: Routes = [
     {
@@ -27,6 +28,13 @@ export const routes: Routes = [
                 loadChildren: () =>
                     import('./characters/characters.module').then(
                         (m: { CharactersModule: CharactersModule }) => m.CharactersModule
+                    )
+            },
+            {
+                path: 'films',
+                loadChildren: () =>
+                    import('./films/films.module').then(
+                        (m: { FilmsModule: FilmsModule }) => m.FilmsModule
                     )
             }
         ]

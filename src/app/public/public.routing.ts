@@ -2,6 +2,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { PublicPagesComponent } from './public.component';
 import { ModuleWithProviders } from '@angular/core';
 import { PublicPagesModule } from './public.module';
+import { DashboardResolver } from './dashboard/dashboard.resolver';
 
 export const routes: Routes = [
     {
@@ -11,6 +12,9 @@ export const routes: Routes = [
             { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
             {
                 path: 'dashboard',
+                resolve: {
+                    stats: DashboardResolver
+                },
                 loadChildren: () =>
                     import('./dashboard/dashboard.module').then((m) => m.DashboardModule)
             }

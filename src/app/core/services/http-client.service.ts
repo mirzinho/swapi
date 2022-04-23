@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { EntityType } from '../enums/enity-type.enum';
 import { environment } from '../../../environments/environment';
+import { ActionResponse } from '../interfaces/action-response.interface';
 
 export interface QueryParams {
     [key: string]: string | number | boolean;
@@ -21,8 +22,8 @@ export class AppHttpClient {
 
     public get = <T>(
         entityTpe: EntityType,
-        queryParams: QueryParams
-    ): Observable<any> => {
+        queryParams?: QueryParams
+    ): Observable<ActionResponse<T>> => {
         return this.http.get<any>(formatEndpointUrl(entityTpe, { ...queryParams }));
     };
 }

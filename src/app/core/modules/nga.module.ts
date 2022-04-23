@@ -4,8 +4,9 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { SidebarComponent } from '../components/sidebar/sidebar.component';
 import { AppHttpClient } from '../services/http-client.service';
+import { ContentBoxComponent } from '../components/content-box/content-box.component';
 
-const NGA_COMPONENTS: any = [SidebarComponent];
+const NGA_COMPONENTS: any = [SidebarComponent, ContentBoxComponent];
 
 const NGA_DIRECTIVES: any = [];
 
@@ -23,10 +24,10 @@ const NGA_EXPORT_MODULES = [CommonModule, RouterModule, FormsModule, ReactiveFor
     exports: [...NGA_COMPONENTS, ...NGA_DIRECTIVES, ...NGA_EXPORT_MODULES, ...NGA_PIPES],
     providers: [...NGA_SERVICES]
 })
-export class SharedModule {
-    static forRoot(): ModuleWithProviders<SharedModule> {
+export class NgaModule {
+    static forRoot(): ModuleWithProviders<NgaModule> {
         return {
-            ngModule: SharedModule,
+            ngModule: NgaModule,
             providers: [...NGA_SERVICES]
         };
     }

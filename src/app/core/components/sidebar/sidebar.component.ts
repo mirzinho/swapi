@@ -13,7 +13,7 @@ export interface SidebarItem {
 export class SidebarComponent {
     public sidebarItems: Array<SidebarItem> = [
         { icon: 'users', name: 'Characters' },
-        { icon: 'film', name: 'Movies' }
+        { icon: 'film', name: 'Films' }
     ];
     constructor() {}
 }

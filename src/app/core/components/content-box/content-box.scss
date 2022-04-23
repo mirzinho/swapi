@@ -1,0 +1,15 @@
+.content-box {
+    padding: 15px;
+    border: 1px solid #ddd;
+    background: #fff;
+    .title {
+        margin: -15px -15px 15px -15px;
+        padding: 12px 15px;
+        font-size: 14px;
+        font-weight: 400;
+        border-bottom: 1px solid #ddd;
+        &:first-letter {
+            text-transform: capitalize;
+        }
+    }
+}

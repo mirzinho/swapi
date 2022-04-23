@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AppHttpClient } from '../../core/services/http-client.service';
-import { EntityType } from '../../core/enums/enity-type.enum';
-import { HttpErrorResponse } from '@angular/common/http';
+import { DashboardStats } from './dashboard.model';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
     selector: 'dashboard',
@@ -9,16 +9,12 @@ import { HttpErrorResponse } from '@angular/common/http';
     styleUrls: ['./dashboard.scss']
 })
 export class DashboardComponent implements OnInit {
-    constructor(private http: AppHttpClient) {}
+    public dashboardStats: DashboardStats;
+
+    constructor(private http: AppHttpClient, private route: ActivatedRoute) {}
 
     ngOnInit(): void {
-        console.log('dash');
-
-        this.http.get<any>(EntityType.People, {}).subscribe({
-            next: (response: any) => {
-                console.log('response', response);
-            },
-            error: (error: HttpErrorResponse) => {}
-        });
+        this.dashboardStats = this.route.snapshot.data['stats'];
+        console.log('stats', this.dashboardStats);
     }
 }

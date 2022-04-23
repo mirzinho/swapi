@@ -16,13 +16,17 @@
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let row of config.data">
+            <tr
+                *ngFor="let row of config.data"
+                [ngClass]="{ 'link': config.rowLink }"
+                (click)="rowLink(row)"
+            >
                 <td *ngFor="let column of config.columns">{{row[column.property]}}</td>
             </tr>
         </tbody>
     </table>
     <app-table-pager
-        *ngIf="config"
+        *ngIf="config && config.data?.length"
         [totalItems]="config.count"
         [currentCount]="config.data?.length || 0"
         [currentPage]="config.currentPage"

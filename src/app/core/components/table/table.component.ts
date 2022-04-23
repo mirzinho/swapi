@@ -19,9 +19,10 @@ import { PageEvent, TableCell, TableConfig } from './table.interface';
     styleUrls: ['./table.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TableComponent implements OnChanges {
-    @Input() public config: TableConfig<any>;
+export class TableComponent<T> implements OnChanges {
+    @Input() public config: TableConfig<T>;
     @Output() public pageChanged: EventEmitter<PageEvent> = new EventEmitter();
+    @Output() public rowClicked: EventEmitter<T> = new EventEmitter();
     public backupData: Array<any>;
     constructor(private cdr: ChangeDetectorRef) {}
 
@@ -58,7 +59,7 @@ export class TableComponent implements OnChanges {
         this.sortData(cell);
     };
 
-    sortData = (cell: TableCell<any>): void => {
+    sortData = (cell: TableCell<T>): void => {
         if (cell.sorting) {
             this.config.data?.sort((a, b) => {
                 if (a[cell.property] < b[cell.property]) return -1;
@@ -70,6 +71,10 @@ export class TableComponent implements OnChanges {
                 this.config.data?.reverse();
             }
         }
+    };
+
+    rowLink = (row: T): void => {
+        this.rowClicked.emit(row);
     };
 
     detectChanges(): void {

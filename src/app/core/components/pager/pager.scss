@@ -13,6 +13,7 @@
             display: inline-block;
         }
         .selector {
+            user-select: none;
             display: inline-block;
             margin-right: 5px;
             border: 1px solid #ddd;

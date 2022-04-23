@@ -34,8 +34,6 @@ export class PagerComponent implements OnInit, OnChanges {
     ngOnInit(): void {}
 
     ngOnChanges(changes: SimpleChanges): void {
-        console.log('pager changes', changes);
-
         this.totalPages = Math.ceil(this.totalItems / this.selectedPageSize);
         this.detectChanges();
     }

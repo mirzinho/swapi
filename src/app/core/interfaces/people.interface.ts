@@ -16,4 +16,6 @@ export interface People extends BaseData {
     vehicles: Array<string>;
 }
 
-export type Character = People;
+export interface Character extends People {
+    isFavorite: boolean;
+}

@@ -11,10 +11,10 @@ export class CharacterService {
     constructor(private http: AppHttpClient) {}
 
     getCharacters = (page: PageEvent): Observable<ActionResponse<Character>> => {
-        return this.http.get<Character>(EntityType.People, { page: page.pageIndex });
+        return this.http.getPaged<Character>(EntityType.People, { page: page.pageIndex });
     };
 
-    getCharacter = (): Character => {
-        return {} as Character;
+    getCharacter = (id: string): Observable<Character> => {
+        return this.http.get<Character>(EntityType.People, { id: id });
     };
 }

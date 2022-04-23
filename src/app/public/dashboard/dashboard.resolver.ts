@@ -5,7 +5,7 @@ import { EntityType } from '../../core/enums/enity-type.enum';
 import { catchError, forkJoin, map, Observable, of, pipe } from 'rxjs';
 import { DashboardStats } from './dashboard.model';
 import { People } from '../../core/interfaces/people.interface';
-import { Films } from '../../core/interfaces/films.interface';
+import { Film } from '../../core/interfaces/films.interface';
 
 export const countless = {
     count: 0
@@ -17,13 +17,13 @@ export class DashboardResolver implements Resolve<DashboardStats> {
 
     resolve(): Observable<DashboardStats> {
         return forkJoin([
-            this.http.get<People>(EntityType.People).pipe(
+            this.http.getPaged<People>(EntityType.People).pipe(
                 catchError((error) => {
                     // Return default as 0
                     return of(countless);
                 })
             ),
-            this.http.get<Films>(EntityType.Films).pipe(
+            this.http.getPaged<Film>(EntityType.Films).pipe(
                 catchError((error) => {
                     // Return default as 0
                     return of(countless);

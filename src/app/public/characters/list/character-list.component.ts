@@ -2,6 +2,7 @@ import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component,
+    OnDestroy,
     OnInit,
     ViewRef
 } from '@angular/core';
@@ -10,6 +11,9 @@ import { ActionResponse } from '../../../core/interfaces/action-response.interfa
 import { Character } from '../../../core/interfaces/people.interface';
 import { HttpErrorResponse } from '@angular/common/http';
 import { PageEvent, TableConfig } from '../../../core/components/table/table.interface';
+import { Subscription } from 'rxjs';
+import { ActivatedRoute, Router } from '@angular/router';
+import { getIdFromUrl } from '../../../core/services/http-client.service';
 
 @Component({
     selector: 'character-list',
@@ -17,9 +21,15 @@ import { PageEvent, TableConfig } from '../../../core/components/table/table.int
     changeDetection: ChangeDetectionStrategy.OnPush,
     providers: [CharacterService]
 })
-export class CharacterListComponent implements OnInit {
+export class CharacterListComponent implements OnInit, OnDestroy {
     public tableConfig: TableConfig<Character>;
-    constructor(private cdr: ChangeDetectorRef, private service: CharacterService) {}
+    private subscription: Subscription = new Subscription();
+    constructor(
+        private cdr: ChangeDetectorRef,
+        private service: CharacterService,
+        private router: Router,
+        private route: ActivatedRoute
+    ) {}
 
     ngOnInit(): void {
         this.tableConfig = {
@@ -27,13 +37,21 @@ export class CharacterListComponent implements OnInit {
                 { property: 'name', header: 'Name', sortable: true },
                 { property: 'birth_year', header: 'Birth year', sortable: true },
                 { property: 'gender', header: 'Gender' }
-            ]
+            ],
+            rowLink: true
         };
         this.getCharacters();
     }
 
+    ngOnDestroy(): void {
+        this.subscription.unsubscribe();
+    }
+
     getCharacters = (pageIndex = 1, pageSize = 10): void => {
-        this.service
+        if (this.subscription) {
+            this.subscription.unsubscribe();
+        }
+        this.subscription = this.service
             .getCharacters({ pageIndex: pageIndex, pageSize: pageSize })
             .subscribe({
                 next: (response: ActionResponse<Character>) => {
@@ -55,6 +73,12 @@ export class CharacterListComponent implements OnInit {
 
     pageChanged = (event: PageEvent): void => {
         this.getCharacters(event.pageIndex, event.pageSize);
+    };
+
+    rowClicked = (row: Character): void => {
+        this.router.navigate(['../details/' + getIdFromUrl(row.url)], {
+            relativeTo: this.route
+        });
     };
 
     detectChanges(): void {

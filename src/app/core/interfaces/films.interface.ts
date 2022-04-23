@@ -1,6 +1,6 @@
 import { BaseData } from './base-data.interface';
 
-export interface Films extends BaseData {
+export interface Film extends BaseData {
     title: string;
     episode_id: number;
     opening_crawl: string;

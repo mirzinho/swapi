@@ -1,1 +1,45 @@
-char details
+<content-box [title]="character.name" *ngIf="character">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                <label>Favorite</label>
+                <p>
+                    <i
+                        (click)="toggleFavoriteState()"
+                        class="fa-solid fa-star favorite"
+                        [ngClass]="{ 'active': character.isFavorite}"
+                    ></i>
+                </p>
+            </div>
+
+            <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                <label>Height</label>
+                <p>{{character.height}}</p>
+            </div>
+            <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                <label>Weight</label>
+                <p>{{character.mass}}</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                <label>Birth year</label>
+                <p>{{character.birth_year}}</p>
+            </div>
+            <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                <label>Gender</label>
+                <p>{{character.gender}}</p>
+            </div>
+
+            <div class="col-12 col-sm-6 col-md-4 col-lg-3" *ngIf="planet">
+                <label>Home planet</label>
+                <p>{{planet.name}}</p>
+            </div>
+
+            <div class="col-12 col-sm-12" *ngIf="films">
+                <label>Appears in:</label>
+                <p *ngFor="let film of films">{{film.title}}</p>
+            </div>
+        </div>
+    </div>
+</content-box>

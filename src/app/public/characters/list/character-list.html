@@ -1,1 +1,5 @@
-<app-table [config]="tableConfig" (pageChanged)="pageChanged($event)"></app-table>
+<app-table
+    [config]="tableConfig"
+    (pageChanged)="pageChanged($event)"
+    (rowClicked)="rowClicked($event)"
+></app-table>

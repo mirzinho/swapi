@@ -11,6 +11,7 @@ export interface TableConfig<T> {
     data?: Array<T>;
     count?: number;
     currentPage?: number;
+    rowLink?: boolean;
 }
 
 export interface PageEvent {

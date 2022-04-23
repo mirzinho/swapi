@@ -6,7 +6,7 @@ import { SharedModule } from '../core/modules/shared.module';
 @NgModule({
     imports: [PublicRouting, SharedModule],
     declarations: [PublicPagesComponent],
-    exports: [SharedModule],
+    exports: [],
     providers: []
 })
 export class PublicPagesModule {}

@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { SidebarComponent } from '../components/sidebar/sidebar.component';
+import { AppHttpClient } from '../services/http-client.service';
 
 const NGA_COMPONENTS: any = [SidebarComponent];
 
@@ -10,7 +11,7 @@ const NGA_DIRECTIVES: any = [];
 
 const NGA_PIPES: any = [];
 
-const NGA_SERVICES: any = [];
+const NGA_SERVICES: any = [AppHttpClient];
 
 const NGA_MODULES = [CommonModule, RouterModule, FormsModule, ReactiveFormsModule];
 

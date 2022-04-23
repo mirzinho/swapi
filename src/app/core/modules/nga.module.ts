@@ -5,8 +5,9 @@ import { RouterModule } from '@angular/router';
 import { SidebarComponent } from '../components/sidebar/sidebar.component';
 import { AppHttpClient } from '../services/http-client.service';
 import { ContentBoxComponent } from '../components/content-box/content-box.component';
+import { HeaderComponent } from '../components/header/header.component';
 
-const NGA_COMPONENTS: any = [SidebarComponent, ContentBoxComponent];
+const NGA_COMPONENTS: any = [HeaderComponent, SidebarComponent, ContentBoxComponent];
 
 const NGA_DIRECTIVES: any = [];
 

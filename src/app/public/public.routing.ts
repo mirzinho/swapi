@@ -3,6 +3,8 @@ import { PublicPagesComponent } from './public.component';
 import { ModuleWithProviders } from '@angular/core';
 import { PublicPagesModule } from './public.module';
 import { DashboardResolver } from './dashboard/dashboard.resolver';
+import { CharactersModule } from './characters/characters.module';
+import { DashboardModule } from './dashboard/dashboard.module';
 
 export const routes: Routes = [
     {
@@ -16,29 +18,17 @@ export const routes: Routes = [
                     stats: DashboardResolver
                 },
                 loadChildren: () =>
-                    import('./dashboard/dashboard.module').then((m) => m.DashboardModule)
+                    import('./dashboard/dashboard.module').then(
+                        (m: { DashboardModule: DashboardModule }) => m.DashboardModule
+                    )
+            },
+            {
+                path: 'characters',
+                loadChildren: () =>
+                    import('./characters/characters.module').then(
+                        (m: { CharactersModule: CharactersModule }) => m.CharactersModule
+                    )
             }
-            // {
-            //     path: 'change-password',
-            //     loadChildren: () =>
-            //         import('./change-password/change-password.module').then(
-            //             (m) => m.ChangePasswordModule
-            //         )
-            // },
-            // {
-            //     path: 'reset-password',
-            //     loadChildren: () =>
-            //         import('./reset-password/reset-password.module').then(
-            //             (m) => m.ResetPasswordModule
-            //         )
-            // },
-            // {
-            //     path: 'compare-localizations',
-            //     loadChildren: () =>
-            //         import('./compare-localizations/compare-localizations.module').then(
-            //             (m) => m.CompareLocalizationsModule
-            //         )
-            // }
         ]
     }
 ];

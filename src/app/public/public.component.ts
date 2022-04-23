@@ -1,12 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 @Component({
     selector: 'public',
     templateUrl: './public.html',
-    styleUrls: ['public.scss']
+    styleUrls: ['public.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class PublicPagesComponent {
-    constructor() {
-        console.log('public');
-    }
-}
+export class PublicPagesComponent {}

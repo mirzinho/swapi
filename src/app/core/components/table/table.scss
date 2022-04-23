@@ -9,6 +9,12 @@
         th {
             padding: 5px;
             white-space: nowrap;
+            border: 1px solid #ddd;
+            .sort {
+                cursor: pointer;
+                float: right;
+                margin-right: 10px;
+            }
         }
 
         td {

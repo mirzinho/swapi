@@ -1,7 +1,10 @@
 <div class="pager">
     <div class="left">
         <span class="page"> Page {{currentPage}} / {{totalPages}} </span>
-        <span class="items"> Items {{currentCount * currentPage}} / {{totalItems}} </span>
+        <span class="items">
+            Items {{currentCount + ((currentPage - 1) * selectedPageSize)}} /
+            {{totalItems}}
+        </span>
     </div>
     <div class="right">
         <div class="page-switcher">

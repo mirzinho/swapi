@@ -4,8 +4,10 @@ import {
     Component,
     EventEmitter,
     Input,
+    OnChanges,
     OnInit,
     Output,
+    SimpleChanges,
     ViewRef
 } from '@angular/core';
 import { PageEvent } from '../table/table.interface';
@@ -16,7 +18,7 @@ import { PageEvent } from '../table/table.interface';
     styleUrls: ['./pager.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class PagerComponent implements OnInit {
+export class PagerComponent implements OnInit, OnChanges {
     @Input() totalItems: any = 0;
     @Input() currentCount: any = 0;
     @Input() currentPage: any = 1;
@@ -29,8 +31,13 @@ export class PagerComponent implements OnInit {
 
     constructor(private cdr: ChangeDetectorRef) {}
 
-    ngOnInit(): void {
+    ngOnInit(): void {}
+
+    ngOnChanges(changes: SimpleChanges): void {
+        console.log('pager changes', changes);
+
         this.totalPages = Math.ceil(this.totalItems / this.selectedPageSize);
+        this.detectChanges();
     }
 
     previousPage = (): void => {

@@ -2,7 +2,17 @@
     <table class="table" *ngIf="config">
         <thead>
             <tr>
-                <th *ngFor="let cell of config.columns">{{cell.header}}</th>
+                <th *ngFor="let cell of config.columns">
+                    {{cell.header}}
+                    <div *ngIf="cell.sortable" class="sort" (click)="sort(cell)">
+                        <i *ngIf="!cell.sorting" class="fa-solid fa-sort"></i>
+                        <i *ngIf="cell.sorting == 'asc'" class="fa-solid fa-sort-up"></i>
+                        <i
+                            *ngIf="cell.sorting == 'desc'"
+                            class="fa-solid fa-sort-down"
+                        ></i>
+                    </div>
+                </th>
             </tr>
         </thead>
         <tbody>

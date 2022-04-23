@@ -22,6 +22,13 @@ export class CharacterListComponent implements OnInit {
     constructor(private cdr: ChangeDetectorRef, private service: CharacterService) {}
 
     ngOnInit(): void {
+        this.tableConfig = {
+            columns: [
+                { property: 'name', header: 'Name', sortable: true },
+                { property: 'birth_year', header: 'Birth year', sortable: true },
+                { property: 'gender', header: 'Gender' }
+            ]
+        };
         this.getCharacters();
     }
 
@@ -39,19 +46,14 @@ export class CharacterListComponent implements OnInit {
 
     setTable = (data: ActionResponse<Character>, page: number): void => {
         this.tableConfig = {
-            columns: [
-                { property: 'name', header: 'Name' },
-                { property: 'birth_year', header: 'Birth year' },
-                { property: 'gender', header: 'Gender' }
-            ],
-            data: Object.assign([], data.results),
-            count: data.count,
-            currentPage: page
+            ...this.tableConfig,
+            data: data.results,
+            currentPage: page,
+            count: data.count
         };
     };
 
     pageChanged = (event: PageEvent): void => {
-        console.log('page changed');
         this.getCharacters(event.pageIndex, event.pageSize);
     };
 

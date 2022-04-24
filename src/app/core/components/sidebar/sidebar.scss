@@ -2,6 +2,7 @@
     min-width: 200px;
     height: 100vh;
     background: #404040;
+
     .header {
         padding: 20px 15px;
         font-size: 16px;
@@ -10,9 +11,6 @@
         height: 60px;
         i {
             margin-right: 10px;
-            &:last-of-type {
-                float: right;
-            }
         }
     }
     .item {
@@ -27,6 +25,21 @@
 
         i {
             margin-right: 5px;
+        }
+    }
+
+    @media screen and (max-width: 600px) {
+        min-width: 40px;
+        max-width: 40px;
+        .user-name,
+        .item-title {
+            display: none;
+        }
+        .item {
+            text-align: center;
+            i {
+                margin-right: 0;
+            }
         }
     }
 }

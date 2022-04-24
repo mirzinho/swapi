@@ -2,9 +2,9 @@
     <div class="header">
         <i class="fa-solid fa-user-astronaut"></i>
         <span class="user-name">Boba Fett</span>
-        <i class="fa-solid fa-arrow-right-from-bracket"></i>
     </div>
     <div *ngFor="let item of sidebarItems" class="item" (click)="open(item)">
-        <i *ngIf="item.icon" class="fa-solid fa-{{item.icon}}"></i> {{item.name}}
+        <i *ngIf="item.icon" class="fa-solid fa-{{item.icon}}"></i>
+        <span class="item-title">{{item.name}}</span>
     </div>
 </div>

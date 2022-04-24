@@ -2,6 +2,11 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-sm-12">
+                <action-buttons [buttons]="actionButtons"></action-buttons>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
                 <p class="star-title">
                     {{character.name}}
                     <i
@@ -39,7 +44,9 @@
 
             <div class="col-12 col-sm-12" *ngIf="films">
                 <label>Appears in:</label>
-                <p *ngFor="let film of films">{{film.title}}</p>
+                <p *ngFor="let film of films">
+                    <span class="span-link" (click)="openFilm(film)">{{film.title}}</span>
+                </p>
             </div>
         </div>
     </div>

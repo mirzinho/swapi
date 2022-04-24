@@ -2,19 +2,22 @@ import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component,
+    OnDestroy,
+    OnInit,
     ViewRef
 } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Film } from '../../../core/interfaces/films.interface';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FilmsService } from '../../../core/services/films.service';
-import { checkFavorite, toggleFavoriteState } from '../../../core/utils/utils';
+import { checkFavorite, curry, toggleFavoriteState } from '../../../core/utils/utils';
 import { EntityType } from '../../../core/enums/enity-type.enum';
 import { getIdFromUrl } from '../../../core/services/http-client.service';
-import { catchError, forkJoin, map, of } from 'rxjs';
+import { catchError, forkJoin, map, of, Subscription } from 'rxjs';
 import { CharacterService } from '../../characters/character.service';
 import { Character } from '../../../core/interfaces/people.interface';
 import { AppLoaderService } from '../../../core/components/app-loader/app-loader.service';
+import { ActionButton } from '../../../core/components/action-buttons/action-buttons.component';
 
 @Component({
     selector: 'film-details',
@@ -22,10 +25,14 @@ import { AppLoaderService } from '../../../core/components/app-loader/app-loader
     changeDetection: ChangeDetectionStrategy.OnPush,
     providers: [FilmsService, CharacterService]
 })
-export class FilmDetailsComponent {
+export class FilmDetailsComponent implements OnInit, OnDestroy {
     private id: string | null;
     public film: Film;
     public characters: Array<Character>;
+    public actionButtons: Array<ActionButton>;
+
+    public subscriptions: Subscription = new Subscription();
+
     constructor(
         private cdr: ChangeDetectorRef,
         private route: ActivatedRoute,
@@ -37,16 +44,35 @@ export class FilmDetailsComponent {
 
     ngOnInit(): void {
         this.id = this.route.snapshot.paramMap.get('id');
+
         if (this.id) {
             this.getFilm();
         }
+        const buttons: Array<ActionButton> = [
+            { icon: 'fa-table-list', method: this.backToList }
+        ];
+        this.subscriptions.add(
+            this.route.queryParams.subscribe((params) => {
+                if (params['characterId']) {
+                    buttons.push({
+                        icon: 'fa-user-astronaut',
+                        method: curry(this.backToCharacter, params['characterId'])
+                    });
+                }
+            })
+        );
+
+        this.actionButtons = [...buttons];
+    }
+
+    ngOnDestroy(): void {
+        this.subscriptions.unsubscribe();
     }
 
     getFilm = (): void => {
         this.appLoader.toggleLoader();
         this.service.getFilm(this.id as string).subscribe({
             next: (response: Film) => {
-                console.log('response', response);
                 this.film = {
                     ...response,
                     ...{
@@ -87,6 +113,25 @@ export class FilmDetailsComponent {
             this.appLoader.toggleLoader();
             this.detectChanges();
         });
+    };
+
+    backToList = (): void => {
+        this.router.navigate(['../../list'], { relativeTo: this.route });
+    };
+
+    openCharacter = (character: Character): void => {
+        this.router.navigate(
+            ['public/characters/details/' + getIdFromUrl(character.url)],
+            {
+                queryParams: {
+                    filmId: this.id
+                }
+            }
+        );
+    };
+
+    backToCharacter = (id: string): void => {
+        this.router.navigate(['public/characters/details/' + id]);
     };
 
     toggleFavoriteState = (): void => {

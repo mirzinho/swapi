@@ -1,0 +1,5 @@
+<div class="action-buttons" *ngIf="buttons">
+    <div *ngFor="let button of buttons">
+        <i class="fa-solid {{button.icon}}" (click)="buttonClick(button)"></i>
+    </div>
+</div>

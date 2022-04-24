@@ -26,7 +26,6 @@ export class AppLoaderComponent implements OnInit, OnDestroy {
             this.service.toggleLoader$.subscribe((toggle: boolean) => {
                 this.showLoader = !this.showLoader;
                 this.detectChanges();
-                console.log('loader', this.showLoader + '');
             })
         );
     }

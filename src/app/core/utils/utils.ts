@@ -50,3 +50,13 @@ export const checkFavorite = (
     }
     return isFavorite;
 };
+
+export const curry = (targetFn: any, ...existingArgs: any) => {
+    return (...args: any): any => {
+        const totalArgs = [...args, ...existingArgs];
+        if (totalArgs.length >= targetFn.length) {
+            return targetFn(...totalArgs);
+        }
+        return curry(targetFn, ...totalArgs);
+    };
+};

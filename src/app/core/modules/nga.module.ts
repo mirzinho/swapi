@@ -10,6 +10,7 @@ import { TableComponent } from '../components/table/table.component';
 import { PagerComponent } from '../components/pager/pager.component';
 import { BasicSearchComponent } from '../components/basic-search/basic-search.component';
 import { AppLoaderService } from '../components/app-loader/app-loader.service';
+import { ActionButtonsComponent } from '../components/action-buttons/action-buttons.component';
 
 const NGA_COMPONENTS: any = [
     HeaderComponent,
@@ -17,7 +18,8 @@ const NGA_COMPONENTS: any = [
     ContentBoxComponent,
     TableComponent,
     PagerComponent,
-    BasicSearchComponent
+    BasicSearchComponent,
+    ActionButtonsComponent
 ];
 
 const NGA_DIRECTIVES: any = [];

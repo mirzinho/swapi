@@ -32,6 +32,13 @@ label {
     }
 }
 
+.span-link {
+    &:hover {
+        cursor: pointer;
+        font-weight: bold;
+    }
+}
+
 // Font family for StarWars CDN Font
 /*
 font-family: 'SF Distant Galaxy', sans-serif;

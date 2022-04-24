@@ -2,10 +2,11 @@ import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component,
+    OnDestroy,
     OnInit,
     ViewRef
 } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CharacterService } from '../character.service';
 import { Character } from '../../../core/interfaces/people.interface';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -14,10 +15,11 @@ import { Planet } from '../../../core/interfaces/planet.interface';
 import { getIdFromUrl } from '../../../core/services/http-client.service';
 import { FilmsService } from '../../../core/services/films.service';
 import { Film } from '../../../core/interfaces/films.interface';
-import { catchError, forkJoin, map, of } from 'rxjs';
-import { checkFavorite, toggleFavoriteState } from '../../../core/utils/utils';
+import { catchError, forkJoin, map, of, Subscription } from 'rxjs';
+import { checkFavorite, curry, toggleFavoriteState } from '../../../core/utils/utils';
 import { EntityType } from '../../../core/enums/enity-type.enum';
 import { AppLoaderService } from '../../../core/components/app-loader/app-loader.service';
+import { ActionButton } from '../../../core/components/action-buttons/action-buttons.component';
 
 @Component({
     selector: 'character-details',
@@ -25,15 +27,19 @@ import { AppLoaderService } from '../../../core/components/app-loader/app-loader
     changeDetection: ChangeDetectionStrategy.OnPush,
     providers: [CharacterService, PlanetService, FilmsService]
 })
-export class CharacterDetailsComponent implements OnInit {
+export class CharacterDetailsComponent implements OnInit, OnDestroy {
     private id: string | null;
     public character: Character;
     public planet: Planet;
     public films: Array<Film>;
+    public actionButtons: Array<ActionButton>;
+
+    public subscriptions: Subscription = new Subscription();
 
     constructor(
         private cdr: ChangeDetectorRef,
         private route: ActivatedRoute,
+        private router: Router,
         private service: CharacterService,
         private planetService: PlanetService,
         private filmsService: FilmsService,
@@ -45,6 +51,26 @@ export class CharacterDetailsComponent implements OnInit {
         if (this.id) {
             this.getCharacter();
         }
+
+        const buttons: Array<ActionButton> = [
+            { icon: 'fa-table-list', method: this.backToList }
+        ];
+        this.subscriptions.add(
+            this.route.queryParams.subscribe((params) => {
+                if (params['filmId']) {
+                    buttons.push({
+                        icon: 'fa-film',
+                        method: curry(this.backToFilm, params['filmId'])
+                    });
+                }
+            })
+        );
+
+        this.actionButtons = [...buttons];
+    }
+
+    ngOnDestroy(): void {
+        this.subscriptions.unsubscribe();
     }
 
     getCharacter = (): void => {
@@ -107,6 +133,22 @@ export class CharacterDetailsComponent implements OnInit {
             this.id as string,
             EntityType.People
         );
+    };
+
+    openFilm = (film: Film): void => {
+        this.router.navigate(['public/films/details/' + getIdFromUrl(film.url)], {
+            queryParams: {
+                characterId: this.id
+            }
+        });
+    };
+
+    backToList = (): void => {
+        this.router.navigate(['../../list'], { relativeTo: this.route });
+    };
+
+    backToFilm = (id: string): void => {
+        this.router.navigate(['public/films/details/' + id]);
     };
 
     detectChanges(): void {

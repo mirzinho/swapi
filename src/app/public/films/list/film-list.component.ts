@@ -12,6 +12,7 @@ import { FilmsService } from '../../../core/services/films.service';
 import { ActionResponse } from '../../../core/interfaces/action-response.interface';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Film } from '../../../core/interfaces/films.interface';
+import { AppLoaderService } from '../../../core/components/app-loader/app-loader.service';
 
 @Component({
     selector: 'film-list',
@@ -27,7 +28,8 @@ export class FilmListComponent {
         private cdr: ChangeDetectorRef,
         private router: Router,
         private route: ActivatedRoute,
-        private service: FilmsService
+        private service: FilmsService,
+        private appLoader: AppLoaderService
     ) {}
 
     ngOnInit(): void {
@@ -43,6 +45,7 @@ export class FilmListComponent {
     }
 
     getFilms = (pageIndex = 1, pageSize = 10, search: string | null = null): void => {
+        this.appLoader.toggleLoader();
         if (this.subscription) {
             this.subscription.unsubscribe();
         }
@@ -51,6 +54,7 @@ export class FilmListComponent {
             .subscribe({
                 next: (response: ActionResponse<Film>) => {
                     this.setTable(response, pageIndex);
+                    this.appLoader.toggleLoader();
                     this.detectChanges();
                 },
                 error: (error: HttpErrorResponse) => {}

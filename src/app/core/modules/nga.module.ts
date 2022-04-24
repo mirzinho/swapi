@@ -9,6 +9,7 @@ import { HeaderComponent } from '../components/header/header.component';
 import { TableComponent } from '../components/table/table.component';
 import { PagerComponent } from '../components/pager/pager.component';
 import { BasicSearchComponent } from '../components/basic-search/basic-search.component';
+import { AppLoaderService } from '../components/app-loader/app-loader.service';
 
 const NGA_COMPONENTS: any = [
     HeaderComponent,

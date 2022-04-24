@@ -14,6 +14,7 @@ import { getIdFromUrl } from '../../../core/services/http-client.service';
 import { catchError, forkJoin, map, of } from 'rxjs';
 import { CharacterService } from '../../characters/character.service';
 import { Character } from '../../../core/interfaces/people.interface';
+import { AppLoaderService } from '../../../core/components/app-loader/app-loader.service';
 
 @Component({
     selector: 'film-details',
@@ -30,7 +31,8 @@ export class FilmDetailsComponent {
         private route: ActivatedRoute,
         private router: Router,
         private service: FilmsService,
-        private characterService: CharacterService
+        private characterService: CharacterService,
+        private appLoader: AppLoaderService
     ) {}
 
     ngOnInit(): void {
@@ -41,6 +43,7 @@ export class FilmDetailsComponent {
     }
 
     getFilm = (): void => {
+        this.appLoader.toggleLoader();
         this.service.getFilm(this.id as string).subscribe({
             next: (response: Film) => {
                 console.log('response', response);
@@ -81,6 +84,7 @@ export class FilmDetailsComponent {
 
         forkJoin(additionalData).subscribe((response) => {
             this.characters = response;
+            this.appLoader.toggleLoader();
             this.detectChanges();
         });
     };

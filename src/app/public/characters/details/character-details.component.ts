@@ -17,6 +17,7 @@ import { Film } from '../../../core/interfaces/films.interface';
 import { catchError, forkJoin, map, of } from 'rxjs';
 import { checkFavorite, toggleFavoriteState } from '../../../core/utils/utils';
 import { EntityType } from '../../../core/enums/enity-type.enum';
+import { AppLoaderService } from '../../../core/components/app-loader/app-loader.service';
 
 @Component({
     selector: 'character-details',
@@ -35,7 +36,8 @@ export class CharacterDetailsComponent implements OnInit {
         private route: ActivatedRoute,
         private service: CharacterService,
         private planetService: PlanetService,
-        private filmsService: FilmsService
+        private filmsService: FilmsService,
+        private appLoader: AppLoaderService
     ) {}
 
     ngOnInit(): void {
@@ -46,6 +48,7 @@ export class CharacterDetailsComponent implements OnInit {
     }
 
     getCharacter = (): void => {
+        this.appLoader.toggleLoader();
         this.service.getCharacter(this.id as string).subscribe({
             next: (response: Character) => {
                 this.character = {
@@ -93,6 +96,7 @@ export class CharacterDetailsComponent implements OnInit {
 
         forkJoin(additionalData).subscribe((response) => {
             this.films = response;
+            this.appLoader.toggleLoader();
             this.detectChanges();
         });
     };

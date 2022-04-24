@@ -2,6 +2,7 @@ import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component,
+    Inject,
     OnDestroy,
     OnInit,
     ViewRef
@@ -14,6 +15,7 @@ import { PageEvent, TableConfig } from '../../../core/components/table/table.int
 import { Subscription } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { getIdFromUrl } from '../../../core/services/http-client.service';
+import { AppLoaderService } from '../../../core/components/app-loader/app-loader.service';
 
 @Component({
     selector: 'character-list',
@@ -28,7 +30,8 @@ export class CharacterListComponent implements OnInit, OnDestroy {
         private cdr: ChangeDetectorRef,
         private service: CharacterService,
         private router: Router,
-        private route: ActivatedRoute
+        private route: ActivatedRoute,
+        private appLoader: AppLoaderService
     ) {}
 
     ngOnInit(): void {
@@ -52,6 +55,7 @@ export class CharacterListComponent implements OnInit, OnDestroy {
         pageSize = 10,
         search: string | null = null
     ): void => {
+        this.appLoader.toggleLoader();
         if (this.subscription) {
             this.subscription.unsubscribe();
         }
@@ -60,9 +64,12 @@ export class CharacterListComponent implements OnInit, OnDestroy {
             .subscribe({
                 next: (response: ActionResponse<Character>) => {
                     this.setTable(response, pageIndex);
+                    this.appLoader.toggleLoader();
                     this.detectChanges();
                 },
-                error: (error: HttpErrorResponse) => {}
+                error: (error: HttpErrorResponse) => {
+                    this.appLoader.toggleLoader();
+                }
             });
     };
 

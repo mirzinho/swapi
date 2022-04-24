@@ -47,12 +47,16 @@ export class CharacterListComponent implements OnInit, OnDestroy {
         this.subscription.unsubscribe();
     }
 
-    getCharacters = (pageIndex = 1, pageSize = 10): void => {
+    getCharacters = (
+        pageIndex = 1,
+        pageSize = 10,
+        search: string | null = null
+    ): void => {
         if (this.subscription) {
             this.subscription.unsubscribe();
         }
         this.subscription = this.service
-            .getCharacters({ pageIndex: pageIndex, pageSize: pageSize })
+            .getCharacters({ pageIndex: pageIndex, pageSize: pageSize, search: search })
             .subscribe({
                 next: (response: ActionResponse<Character>) => {
                     this.setTable(response, pageIndex);
@@ -73,6 +77,10 @@ export class CharacterListComponent implements OnInit, OnDestroy {
 
     pageChanged = (event: PageEvent): void => {
         this.getCharacters(event.pageIndex, event.pageSize);
+    };
+
+    search = (query: string): void => {
+        this.getCharacters(1, 10, query);
     };
 
     rowClicked = (row: Character): void => {

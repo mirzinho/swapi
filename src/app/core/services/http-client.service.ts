@@ -6,7 +6,7 @@ import { environment } from '../../../environments/environment';
 import { ActionResponse } from '../interfaces/action-response.interface';
 
 export interface QueryParams {
-    [key: string]: string | number | boolean;
+    [key: string]: string | number | boolean | null | undefined;
 }
 
 export const getIdFromUrl = (url: string): string => {
@@ -21,8 +21,9 @@ export const formatQueryParams = (queryParams: QueryParams | undefined): string 
     for (const property in queryParams) {
         if (property == 'id') {
             query += '/' + queryParams[property] + '/';
-        } else {
-            query += '?' + property + '=' + queryParams[property];
+        } else if (queryParams[property]) {
+            const connector = query.includes('?') ? '&' : '?';
+            query += connector + property + '=' + queryParams[property];
         }
     }
     return query;

@@ -1,4 +1,7 @@
 <div class="table-wrapper">
+    <div class="actions-wrapper">
+        <basic-search (search)="onSearch($event)"></basic-search>
+    </div>
     <table class="table" *ngIf="config">
         <thead>
             <tr>

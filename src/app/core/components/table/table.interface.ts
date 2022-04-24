@@ -17,4 +17,5 @@ export interface TableConfig<T> {
 export interface PageEvent {
     pageIndex: number;
     pageSize: number;
+    search?: string | null;
 }

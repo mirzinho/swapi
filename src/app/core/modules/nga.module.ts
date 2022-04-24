@@ -8,13 +8,15 @@ import { ContentBoxComponent } from '../components/content-box/content-box.compo
 import { HeaderComponent } from '../components/header/header.component';
 import { TableComponent } from '../components/table/table.component';
 import { PagerComponent } from '../components/pager/pager.component';
+import { BasicSearchComponent } from '../components/basic-search/basic-search.component';
 
 const NGA_COMPONENTS: any = [
     HeaderComponent,
     SidebarComponent,
     ContentBoxComponent,
     TableComponent,
-    PagerComponent
+    PagerComponent,
+    BasicSearchComponent
 ];
 
 const NGA_DIRECTIVES: any = [];

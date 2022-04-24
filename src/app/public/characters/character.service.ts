@@ -10,8 +10,11 @@ import { PageEvent } from '../../core/components/table/table.interface';
 export class CharacterService {
     constructor(private http: AppHttpClient) {}
 
-    getCharacters = (page: PageEvent): Observable<ActionResponse<Character>> => {
-        return this.http.getPaged<Character>(EntityType.People, { page: page.pageIndex });
+    getCharacters = (event: PageEvent): Observable<ActionResponse<Character>> => {
+        return this.http.getPaged<Character>(EntityType.People, {
+            page: event.pageIndex,
+            search: event.search
+        });
     };
 
     getCharacter = (id: string): Observable<Character> => {

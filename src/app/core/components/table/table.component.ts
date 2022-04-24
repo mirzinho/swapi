@@ -12,6 +12,7 @@ import {
     ViewRef
 } from '@angular/core';
 import { PageEvent, TableCell, TableConfig } from './table.interface';
+import { query } from '@angular/animations';
 
 @Component({
     selector: 'app-table',
@@ -23,6 +24,8 @@ export class TableComponent<T> implements OnChanges {
     @Input() public config: TableConfig<T>;
     @Output() public pageChanged: EventEmitter<PageEvent> = new EventEmitter();
     @Output() public rowClicked: EventEmitter<T> = new EventEmitter();
+    @Output() public search: EventEmitter<string> = new EventEmitter();
+
     public backupData: Array<any>;
     constructor(private cdr: ChangeDetectorRef) {}
 
@@ -75,6 +78,10 @@ export class TableComponent<T> implements OnChanges {
 
     rowLink = (row: T): void => {
         this.rowClicked.emit(row);
+    };
+
+    onSearch = (query: string): void => {
+        this.search.emit(query);
     };
 
     detectChanges(): void {

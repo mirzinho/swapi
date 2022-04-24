@@ -10,8 +10,11 @@ import { Film } from '../interfaces/films.interface';
 export class FilmsService {
     constructor(private http: AppHttpClient) {}
 
-    getFilms = (page: PageEvent): Observable<ActionResponse<Film>> => {
-        return this.http.getPaged<Film>(EntityType.Films, { page: page.pageIndex });
+    getFilms = (event: PageEvent): Observable<ActionResponse<Film>> => {
+        return this.http.getPaged<Film>(EntityType.Films, {
+            page: event.pageIndex,
+            search: event.search
+        });
     };
 
     getFilm = (id: string): Observable<Film> => {

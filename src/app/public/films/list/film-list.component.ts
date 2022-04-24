@@ -42,12 +42,12 @@ export class FilmListComponent {
         this.getFilms();
     }
 
-    getFilms = (pageIndex = 1, pageSize = 10): void => {
+    getFilms = (pageIndex = 1, pageSize = 10, search: string | null = null): void => {
         if (this.subscription) {
             this.subscription.unsubscribe();
         }
         this.subscription = this.service
-            .getFilms({ pageIndex: pageIndex, pageSize: pageSize })
+            .getFilms({ pageIndex: pageIndex, pageSize: pageSize, search: search })
             .subscribe({
                 next: (response: ActionResponse<Film>) => {
                     this.setTable(response, pageIndex);
@@ -74,6 +74,10 @@ export class FilmListComponent {
         this.router.navigate(['../details/' + getIdFromUrl(row.url)], {
             relativeTo: this.route
         });
+    };
+
+    search = (query: string): void => {
+        this.getFilms(1, 10, query);
     };
 
     detectChanges(): void {

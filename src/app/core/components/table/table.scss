@@ -22,5 +22,18 @@
             padding: 5px;
             white-space: nowrap;
         }
+
+        tr {
+            &.link {
+                &:hover {
+                    background: #ddd;
+                    cursor: pointer;
+                }
+            }
+        }
+    }
+
+    .actions-wrapper {
+        text-align: right;
     }
 }

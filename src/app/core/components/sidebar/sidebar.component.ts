@@ -14,6 +14,7 @@ export interface SidebarItem {
 })
 export class SidebarComponent {
     public sidebarItems: Array<SidebarItem> = [
+        { icon: 'dashboard', name: 'Dashboard', route: './dashboard' },
         { icon: 'users', name: 'Characters', route: './characters' },
         { icon: 'film', name: 'Films', route: './films' }
     ];

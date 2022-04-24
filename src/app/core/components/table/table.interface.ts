@@ -1,4 +1,5 @@
 import { Character } from '../../interfaces/people.interface';
+import { EntityType } from '../../enums/enity-type.enum';
 
 export interface TableCell<T> {
     property: keyof T;
@@ -12,6 +13,7 @@ export interface TableConfig<T> {
     count?: number;
     currentPage?: number;
     rowLink?: boolean;
+    entityType: EntityType;
 }
 
 export interface PageEvent {

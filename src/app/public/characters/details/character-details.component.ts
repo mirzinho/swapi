@@ -89,7 +89,9 @@ export class CharacterDetailsComponent implements OnInit, OnDestroy {
                 };
                 this.getAdditionalData();
             },
-            error: (error: HttpErrorResponse) => {}
+            error: (error: HttpErrorResponse) => {
+                this.appLoader.toggleLoader();
+            }
         });
     };
 

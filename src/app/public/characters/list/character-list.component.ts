@@ -2,7 +2,6 @@ import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component,
-    Inject,
     OnDestroy,
     OnInit,
     ViewRef
@@ -16,6 +15,9 @@ import { Subscription } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { getIdFromUrl } from '../../../core/services/http-client.service';
 import { AppLoaderService } from '../../../core/components/app-loader/app-loader.service';
+import { getListParameters, setListParameters } from '../../../core/utils/utils';
+import { EntityType } from '../../../core/enums/enity-type.enum';
+import { BasicSearchService } from '../../../core/components/basic-search/basic-search.service';
 
 @Component({
     selector: 'character-list',
@@ -31,7 +33,8 @@ export class CharacterListComponent implements OnInit, OnDestroy {
         private service: CharacterService,
         private router: Router,
         private route: ActivatedRoute,
-        private appLoader: AppLoaderService
+        private appLoader: AppLoaderService,
+        private searchService: BasicSearchService
     ) {}
 
     ngOnInit(): void {
@@ -41,9 +44,12 @@ export class CharacterListComponent implements OnInit, OnDestroy {
                 { property: 'birth_year', header: 'Birth year', sortable: true },
                 { property: 'gender', header: 'Gender' }
             ],
-            rowLink: true
+            rowLink: true,
+            entityType: EntityType.People
         };
-        this.getCharacters();
+
+        const listParams = getListParameters(EntityType.People);
+        this.getCharacters(listParams.pageIndex, listParams.pageSize, listParams.search);
     }
 
     ngOnDestroy(): void {
@@ -56,6 +62,11 @@ export class CharacterListComponent implements OnInit, OnDestroy {
         search: string | null = null
     ): void => {
         this.appLoader.toggleLoader();
+        setListParameters(EntityType.People, {
+            pageIndex: pageIndex,
+            pageSize: pageSize,
+            search: search
+        });
         if (this.subscription) {
             this.subscription.unsubscribe();
         }
@@ -65,6 +76,7 @@ export class CharacterListComponent implements OnInit, OnDestroy {
                 next: (response: ActionResponse<Character>) => {
                     this.setTable(response, pageIndex);
                     this.appLoader.toggleLoader();
+                    this.searchService.setSearchQuery(search);
                     this.detectChanges();
                 },
                 error: (error: HttpErrorResponse) => {

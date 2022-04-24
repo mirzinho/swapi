@@ -1,18 +1,16 @@
 import {
-    AfterViewInit,
     ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component,
     EventEmitter,
     Input,
     OnChanges,
-    OnInit,
     Output,
     SimpleChanges,
     ViewRef
 } from '@angular/core';
 import { PageEvent, TableCell, TableConfig } from './table.interface';
-import { query } from '@angular/animations';
+import { getTableCellSettings, setTableCellSettings } from '../../utils/utils';
 
 @Component({
     selector: 'app-table',
@@ -37,10 +35,23 @@ export class TableComponent<T> implements OnChanges {
             }
 
             const sortedCell = this.config.columns.filter((f) => f.sorting);
-            if (sortedCell.length) {
+            const savedCell = getTableCellSettings(this.config.entityType);
+            if (savedCell) {
+                const index = this.config.columns.findIndex(
+                    (x) => (x.property = savedCell.property)
+                );
+                if (index >= 0) {
+                    this.config.columns[index] = {
+                        ...this.config.columns[index],
+                        ...savedCell
+                    };
+                }
+                this.sortData(savedCell);
+            } else if (sortedCell.length) {
                 this.sortData(sortedCell[0]);
             }
         }
+
         this.detectChanges();
     }
 
@@ -59,6 +70,7 @@ export class TableComponent<T> implements OnChanges {
             this.config.data = [...this.backupData];
         }
 
+        setTableCellSettings<T>(cell, this.config.entityType);
         this.sortData(cell);
     };
 

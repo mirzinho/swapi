@@ -1,5 +1,5 @@
 <div class="search">
-    <input type="text" class="search-term" #basicSearch />
+    <input type="text" class="search-term" #basicSearch [(ngModel)]="searchQuery" />
     <button type="submit" class="search-button">
         <i class="fa-solid fa-search"></i>
     </button>

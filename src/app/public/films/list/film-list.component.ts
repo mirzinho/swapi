@@ -13,6 +13,9 @@ import { ActionResponse } from '../../../core/interfaces/action-response.interfa
 import { HttpErrorResponse } from '@angular/common/http';
 import { Film } from '../../../core/interfaces/films.interface';
 import { AppLoaderService } from '../../../core/components/app-loader/app-loader.service';
+import { getListParameters, setListParameters } from '../../../core/utils/utils';
+import { EntityType } from '../../../core/enums/enity-type.enum';
+import { BasicSearchService } from '../../../core/components/basic-search/basic-search.service';
 
 @Component({
     selector: 'film-list',
@@ -29,7 +32,8 @@ export class FilmListComponent {
         private router: Router,
         private route: ActivatedRoute,
         private service: FilmsService,
-        private appLoader: AppLoaderService
+        private appLoader: AppLoaderService,
+        public searchService: BasicSearchService
     ) {}
 
     ngOnInit(): void {
@@ -39,13 +43,20 @@ export class FilmListComponent {
                 { property: 'director', header: 'Director', sortable: true },
                 { property: 'release_date', header: 'Release date' }
             ],
-            rowLink: true
+            rowLink: true,
+            entityType: EntityType.Films
         };
-        this.getFilms();
+        const listParams = getListParameters(EntityType.Films);
+        this.getFilms(listParams.pageIndex, listParams.pageSize, listParams.search);
     }
 
     getFilms = (pageIndex = 1, pageSize = 10, search: string | null = null): void => {
         this.appLoader.toggleLoader();
+        setListParameters(EntityType.Films, {
+            pageIndex: pageIndex,
+            pageSize: pageSize,
+            search: search
+        });
         if (this.subscription) {
             this.subscription.unsubscribe();
         }
@@ -55,6 +66,7 @@ export class FilmListComponent {
                 next: (response: ActionResponse<Film>) => {
                     this.setTable(response, pageIndex);
                     this.appLoader.toggleLoader();
+                    this.searchService.setSearchQuery(search);
                     this.detectChanges();
                 },
                 error: (error: HttpErrorResponse) => {}

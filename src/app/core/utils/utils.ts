@@ -1,6 +1,7 @@
 import { Film } from '../interfaces/films.interface';
 import { Character } from '../interfaces/people.interface';
 import { EntityType } from '../enums/enity-type.enum';
+import { PageEvent, TableCell } from '../components/table/table.interface';
 
 export const toggleFavoriteState = (
     item: Film | Character,
@@ -49,6 +50,52 @@ export const checkFavorite = (
         }
     }
     return isFavorite;
+};
+
+export const getListParameters = (entityType: EntityType): PageEvent => {
+    const key = String(EntityType[entityType]).toLocaleLowerCase();
+
+    let pageEvent: PageEvent = {
+        pageIndex: 1,
+        pageSize: 10,
+        search: null
+    };
+    const settings = localStorage.getItem('starwars.lists.' + key);
+    if (settings) {
+        pageEvent = { ...pageEvent, ...JSON.parse(settings) };
+    }
+
+    return pageEvent;
+};
+
+export const setListParameters = (entityType: EntityType, settings?: PageEvent): void => {
+    if (!settings) {
+        settings = {
+            pageIndex: 1,
+            pageSize: 10,
+            search: null
+        };
+    }
+    const key = String(EntityType[entityType]).toLocaleLowerCase();
+    localStorage.setItem('starwars.lists.' + key, JSON.stringify(settings));
+};
+
+export const setTableCellSettings = <T>(
+    cell: TableCell<T>,
+    entityType: EntityType
+): void => {
+    const key = String(EntityType[entityType]).toLocaleLowerCase();
+    localStorage.setItem('starwars.cell.' + key, JSON.stringify(cell));
+};
+
+export const getTableCellSettings = <T>(entityType: EntityType): TableCell<T> | null => {
+    let tableCell = null;
+    const key = String(EntityType[entityType]).toLocaleLowerCase();
+    const cell = localStorage.getItem('starwars.cell.' + key);
+    if (cell) {
+        tableCell = { ...JSON.parse(cell) };
+    }
+    return tableCell;
 };
 
 export const curry = (targetFn: any, ...existingArgs: any) => {

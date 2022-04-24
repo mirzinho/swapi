@@ -10,6 +10,7 @@ import {
 } from '@angular/core';
 import { map, filter, debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { fromEvent, Observable, Subscription } from 'rxjs';
+import { BasicSearchService } from './basic-search.service';
 
 @Component({
     selector: 'basic-search',
@@ -19,11 +20,11 @@ import { fromEvent, Observable, Subscription } from 'rxjs';
 export class BasicSearchComponent implements OnInit, OnDestroy {
     @ViewChild('basicSearch', { static: true }) basicSearch: ElementRef;
     @Output() search: EventEmitter<string> = new EventEmitter();
-    @Input() placeholder: any = '';
-    @Input() inputValue: any = '';
 
-    private searchSubscription: Subscription = new Subscription();
-    constructor() {}
+    public subscriptions: Subscription = new Subscription();
+
+    public searchQuery: string | null | undefined;
+    constructor(private service: BasicSearchService) {}
 
     ngOnInit(): void {
         const obs = fromEvent(this.basicSearch.nativeElement, 'keyup').pipe(
@@ -33,13 +34,17 @@ export class BasicSearchComponent implements OnInit, OnDestroy {
             distinctUntilChanged()
         );
 
-        this.searchSubscription = obs.subscribe((text: string) =>
-            this.submitSearch(text)
+        this.subscriptions.add(obs.subscribe((text: string) => this.submitSearch(text)));
+
+        this.subscriptions.add(
+            this.service.setSearchQuery$.subscribe((query: string | null | undefined) => {
+                this.searchQuery = query;
+            })
         );
     }
 
     ngOnDestroy(): void {
-        this.searchSubscription.unsubscribe();
+        this.subscriptions.unsubscribe();
     }
 
     submitSearch = (text: string): void => {

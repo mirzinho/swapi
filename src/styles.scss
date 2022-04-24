@@ -15,6 +15,23 @@ label {
     font-weight: bold;
 }
 
+.star-title {
+    font-family: 'SF Distant Galaxy Alternate', sans-serif;
+    font-size: 25px;
+    line-height: 25px;
+    letter-spacing: 4px;
+}
+
+.favorite-toggle {
+    color: #aaa;
+    font-size: 20px;
+    cursor: pointer;
+    margin-left: 15px;
+    &.active {
+        color: goldenrod;
+    }
+}
+
 // Font family for StarWars CDN Font
 /*
 font-family: 'SF Distant Galaxy', sans-serif;

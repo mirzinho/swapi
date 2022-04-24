@@ -12,4 +12,5 @@ export interface Film extends BaseData {
     vehicles: Array<string>;
     species: Array<string>;
     url: string;
+    isFavorite?: boolean;
 }

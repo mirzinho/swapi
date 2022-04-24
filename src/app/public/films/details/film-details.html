@@ -1,1 +1,41 @@
-film details
+<content-box *ngIf="film">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-12">
+                <p class="star-title">
+                    {{film.title}}
+                    <i
+                        (click)="toggleFavoriteState()"
+                        class="fa-solid fa-star favorite-toggle"
+                        [ngClass]="{ 'active': film.isFavorite}"
+                    ></i>
+                </p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 col-sm-12"><p>{{film.opening_crawl}}</p></div>
+        </div>
+
+        <div class="row">
+            <div class="col-12 col-sm-12">
+                <label>Direct by</label>
+                <p>{{film.director}}</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 col-sm-12">
+                <label>Produced by</label>
+                <p>{{film.producer}}</p>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12 col-sm-12">
+                <label>Characters</label>
+                <p>
+                    <span *ngFor="let character of characters">{{character.name}}, </span>
+                </p>
+            </div>
+        </div>
+    </div>
+</content-box>

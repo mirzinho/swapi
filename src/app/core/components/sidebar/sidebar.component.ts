@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 
 export interface SidebarItem {
     icon: string;
     name: string;
+    route: string;
 }
 
 @Component({
@@ -12,8 +14,12 @@ export interface SidebarItem {
 })
 export class SidebarComponent {
     public sidebarItems: Array<SidebarItem> = [
-        { icon: 'users', name: 'Characters' },
-        { icon: 'film', name: 'Films' }
+        { icon: 'users', name: 'Characters', route: './characters' },
+        { icon: 'film', name: 'Films', route: './films' }
     ];
-    constructor() {}
+    constructor(private router: Router, private route: ActivatedRoute) {}
+
+    open = (item: SidebarItem): void => {
+        this.router.navigate([item.route], { relativeTo: this.route });
+    };
 }

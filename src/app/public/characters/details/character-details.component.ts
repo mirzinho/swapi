@@ -15,11 +15,12 @@ import { getIdFromUrl } from '../../../core/services/http-client.service';
 import { FilmsService } from '../../../core/services/films.service';
 import { Film } from '../../../core/interfaces/films.interface';
 import { catchError, forkJoin, map, of } from 'rxjs';
+import { checkFavorite, toggleFavoriteState } from '../../../core/utils/utils';
+import { EntityType } from '../../../core/enums/enity-type.enum';
 
 @Component({
     selector: 'character-details',
     templateUrl: './character-details.html',
-    styleUrls: ['character-details.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     providers: [CharacterService, PlanetService, FilmsService]
 })
@@ -47,7 +48,16 @@ export class CharacterDetailsComponent implements OnInit {
     getCharacter = (): void => {
         this.service.getCharacter(this.id as string).subscribe({
             next: (response: Character) => {
-                this.character = { ...response, ...{ isFavorite: this.checkFavorite() } };
+                this.character = {
+                    ...response,
+                    ...{
+                        isFavorite: checkFavorite(
+                            this.character,
+                            this.id as string,
+                            EntityType.People
+                        )
+                    }
+                };
                 this.getAdditionalData();
             },
             error: (error: HttpErrorResponse) => {}
@@ -87,38 +97,12 @@ export class CharacterDetailsComponent implements OnInit {
         });
     };
 
-    checkFavorite = (): boolean => {
-        let isFavorite = false;
-        const favorites = localStorage.getItem('starwars.favorites');
-        if (favorites) {
-            const favArray: Array<string> = JSON.parse(favorites);
-            const isInFavorites = favArray.indexOf(this.id as string);
-            if (isInFavorites >= 0) {
-                isFavorite = true;
-            }
-        }
-        return isFavorite;
-    };
-
     toggleFavoriteState = (): void => {
-        let favorites = localStorage.getItem('starwars.favorites');
-        if (favorites) {
-            const favArray: Array<string> = JSON.parse(favorites);
-            const isInFavorites = favArray.indexOf(this.id as string);
-            if (isInFavorites < 0) {
-                favArray.push(this.id as string);
-                this.character.isFavorite = true;
-            } else {
-                favArray.splice(isInFavorites, 1);
-                this.character.isFavorite = false;
-            }
-
-            localStorage.setItem('starwars.favorites', JSON.stringify(favArray));
-        } else {
-            favorites = JSON.stringify([this.id]);
-            localStorage.setItem('starwars.favorites', favorites);
-            this.character.isFavorite = true;
-        }
+        this.character.isFavorite = toggleFavoriteState(
+            this.character,
+            this.id as string,
+            EntityType.People
+        );
     };
 
     detectChanges(): void {

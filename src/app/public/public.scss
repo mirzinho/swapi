@@ -9,6 +9,8 @@
         background: #f5f5f5;
         .inner-content {
             padding: 25px;
+            overflow: auto;
+            height: calc(100vh - 60px);
         }
     }
 }

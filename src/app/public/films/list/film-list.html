@@ -1,1 +1,5 @@
-film list
+<app-table
+    [config]="tableConfig"
+    (pageChanged)="pageChanged($event)"
+    (rowClicked)="rowClicked($event)"
+></app-table>

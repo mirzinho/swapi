@@ -3,12 +3,13 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { DashboardComponent } from './dashboard.component';
 import { AppHttpClient } from '../../core/services/http-client.service';
 import { HttpClient, HttpHandler } from '@angular/common/http';
+import { ContentBoxComponent } from '../../core/components/content-box/content-box.component';
 
 describe('DashboardComponent', () => {
     beforeEach(async () => {
         await TestBed.configureTestingModule({
             imports: [RouterTestingModule],
-            declarations: [DashboardComponent],
+            declarations: [DashboardComponent, ContentBoxComponent],
             providers: [HttpClient, HttpHandler, AppHttpClient]
         }).compileComponents();
     });
